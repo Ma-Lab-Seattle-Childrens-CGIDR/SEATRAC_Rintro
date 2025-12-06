@@ -1,0 +1,216 @@
+---
+title: "SEATRAC Introduction to R: Session 1"
+author: "Shuyi Ma | Adapted from materials from Kim Dill-McFarland (https://github.com/BIGslu/workshops/tree/main)"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(fig.path = 'figures/')
+##set working dir to project
+#knitr::opts_knit$set(root.dir = #rprojroot::find_rstudio_root_file())
+```
+
+
+In this workshop, we'll introduce you to some R fundamentals:
+
+* R data types (numbers, strings, logicals)
+* Importing data from a spreadsheet into a data frame / tibble
+* Subsetting data frames / tibbles
+* Introduction to packages
+
+# Basic data types
+With R open, you will see a prompt '>'. Enter anything after this prompt, and R will try and evaluate it. R can evaluate 3 types of data:
+
+* numbers and mathematical expressions
+* quoted text (strings) 
+* logical expressions (TRUE and FALSE are special values in R)
+
+## Numbers
+Calculator operations work with numbers.
+
+```{r doubles}
+
+# We are also assigning the answer to a variable we are calling a
+a <- 1 + 1
+
+# calling on a will give back the answer
+print(a)
+
+```
+
+## Logicals
+
+R calls conditionals "logicals". We can use operations that test whether something is TRUE or FALSE, which will output conditionals. 
+
+```{r logicals}
+3 < 5
+
+4 < 2
+
+#To test equality, you have to use two equals signs. You can use parentheses for operations
+(3 + 3) == (2 + 4)
+
+# To test for non-equality
+4 != 3 
+```
+
+Note: when you want to compare 2 conditionals, you can test if both are true with the AND operator "&", and you can test if either one of the conditionals are true with the OR operator "|"
+```{r AND/OR}
+(3 < 5) & (4 < 2) #AND
+
+(3 < 5) | (4 < 2) #OR
+```
+
+## Strings
+
+R can work with text in the form of strings. Note that R will register anything put between "" or '' as a string, even numbers. But the operations R can perform on strings differ from those on numbers
+
+```{r strings}
+"Hello"
+
+"Hello" == "Hello"
+
+"Hello" == "Hello "
+
+"Hello" == "hello"
+
+```
+
+```{r string error, echo=FALSE}
+#'1'+'1'
+#Error in "1" + "1" : non-numeric argument to binary operator
+```
+
+## Lists
+Lists are a grouping of multiple entries of data. Can comprise of any data type
+```{r list}
+numlist = c(1,3,4,9)
+numlist + 2
+numlist > 3
+
+# a shortcut
+numrange = 1:4
+print(numrange)
+
+# a list of strings
+wordlist = c('blue','red','white','green')
+# can test if something is in a list:
+'red' %in% wordlist
+
+```
+
+You can tell R to extract/subset specific elements of a list using square brackets 
+
+```{r subsets}
+numlist[2]
+numlist[c(2,4)]
+```
+
+Importantly, you can subset based on conditionals, and embed conditional operations.
+```{r conditional subsets}
+print(numlist)
+logiclist = c(TRUE,FALSE,TRUE,FALSE)
+numlist[logiclist]
+numlist[numlist < 5]
+```
+
+
+# R Packages
+Many people have developed analysis tools for R that are not available in the base software. Instead, we can access these tools by downloading and installing packages. 
+
+Installations only need to happen once.
+
+```{r install}
+#install.packages("tidyverse")
+```
+
+But you need to load the package every time you open R to access the tools provided in the package:
+
+```{r library}
+library(tidyverse)
+```
+
+# Data importing
+
+We will use the tidyverse function `read_csv()` to import our spreadsheet into R as a tibble
+
+```{r import}
+data = read_csv('Heart_Disease_100sampled.csv')
+```
+
+The spreadsheet dimensions can be queried by `dim`, `nrow`, and `ncol`
+```{r data frame dimensions}
+# tells number of rows (1st) and columns (2nd)
+dim(data)
+
+# nrow tells how many rows 
+nrow(data)
+
+#ncol tells how many columns
+ncol(data)
+```
+
+R Studio: you can view a spreadsheet summary of the data with 
+`View()`. `You can also see a summary of the data with `str()`
+```{r viewing the data}
+#View(data)
+
+# viewing the top rows, columns 
+str(data)
+```
+
+# Extracting data subsets
+To select rows and columns together, use single brackets and two indices: [row, column].
+```{r slicing data}
+# Return the value at the first row, third column
+data[1,4]
+
+# You can also use lists:
+# First 3 rows, first 2 columns
+data[1:3, 1:2]
+
+# all of columns in row 3
+data[3,]
+
+# all of rows in column 1
+data[,1]
+```
+
+You can also call on specific columns
+
+```{r column slicing}
+data$BMI
+data
+```
+
+Importantly, you can also subset based on conditionals
+
+
+
+# Getting help
+To get more information on a function, use the ? operator. This brings up a help page describing how the function works. These pages can be pretty dense and technical, even for longtime R users, so don't be discouraged if it's hard to understand
+```{r help ex}
+?sum()
+```
+
+
+To see an example of how a function is used, try the 'example' function. Not every function has examples though!
+```{r example}
+example(seq)
+```
+Note: Searching with a specific question will also return many useful tutorials online.
+
+
