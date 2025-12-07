@@ -189,16 +189,38 @@ data[3,]
 data[,1]
 ```
 
-You can also call on specific columns
+You can also call on specific columns by name.
 
 ```{r column slicing}
 data$BMI
-data
+data[,'BMI']
 ```
 
 Importantly, you can also subset based on conditionals
 
+```{r conditional slicing}
+HeartDiseaseRows = data$`Heart Disease Status` == 'Yes'
+print(HeartDiseaseRows)
+data[HeartDiseaseRows,'BMI']
+```
 
+## Example application: statistical testing with data subsets
+This kind of subsetting enables you to perform comparative analyses. As an example, we will perform a t-test, comparing the distribution of BMI in patients with and without heart disease:
+
+```{r ttest HD}
+t.test(data[data$`Heart Disease Status` == 'Yes','BMI'],data[data$`Heart Disease Status` == 'No','BMI'])
+```
+
+### Bonus example: a Linear Model associating BMI with different factors
+
+```{r linear model BMI}
+IndepVar = data$BMI
+FactorGender = as.factor(data$Gender)
+FactorSmoking = as.factor(data$Smoking)
+FactorExercise = as.factor(data$`Exercise Habits`)
+
+summary(lm(data$BMI ~ FactorGender + FactorSmoking + FactorExercise))
+```
 
 # Getting help
 To get more information on a function, use the ? operator. This brings up a help page describing how the function works. These pages can be pretty dense and technical, even for longtime R users, so don't be discouraged if it's hard to understand

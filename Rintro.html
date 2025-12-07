@@ -1625,14 +1625,16 @@ our spreadsheet into R as a tibble</p>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>The spreadsheet dimensions can ve queried by <code>dim</code>,
+<p>The spreadsheet dimensions can be queried by <code>dim</code>,
 <code>nrow</code>, and <code>ncol</code></p>
-<pre class="r"><code>dim(data)</code></pre>
+<pre class="r"><code># tells number of rows (1st) and columns (2nd)
+dim(data)</code></pre>
 <pre><code>## [1] 100  22</code></pre>
-<pre class="r"><code># nrow tells how many rows, ncol tells how many columns
+<pre class="r"><code># nrow tells how many rows 
 nrow(data)</code></pre>
 <pre><code>## [1] 100</code></pre>
-<pre class="r"><code>ncol(data)</code></pre>
+<pre class="r"><code>#ncol tells how many columns
+ncol(data)</code></pre>
 <pre><code>## [1] 22</code></pre>
 <p>R Studio: you can view a spreadsheet summary of the data with
 <code>View()</code>.
@@ -1693,8 +1695,9 @@ str(data)</code></pre>
 </div>
 <div id="extracting-data-subsets" class="section level1">
 <h1>Extracting data subsets</h1>
-<pre class="r"><code># To select rows and columns together, use single brackets and two indices: [row, column]
-# Return the value at the first row, third column
+<p>To select rows and columns together, use single brackets and two
+indices: [row, column].</p>
+<pre class="r"><code># Return the value at the first row, third column
 data[1,4]</code></pre>
 <pre><code>## # A tibble: 1 × 1
 ##   `Blood Pressure`
@@ -1738,6 +1741,112 @@ data[,1]</code></pre>
 ##  9 pt 1862
 ## 10 pt 8058
 ## # ℹ 90 more rows</code></pre>
+<p>You can also call on specific columns by name.</p>
+<pre class="r"><code>data$BMI</code></pre>
+<pre><code>##   [1] 33.34947 22.50586 34.11497 37.50158 30.91354 24.66731 30.19360 34.40913
+##   [9] 29.21565 35.12688 18.67460 32.21532 33.41252 35.67601 35.10529 22.65325
+##  [17] 32.45816 30.97571 30.58054 18.22979 19.48234 20.58284 22.24916 32.96815
+##  [25] 38.83295 27.15335 37.69030 28.74740 37.61561 18.75536 34.07053 22.70867
+##  [33] 21.29821 36.10898 28.03114 29.62960 27.24986 36.52917 37.01109 33.72941
+##  [41] 36.82030 19.21318 23.65275 33.78002 33.76812 30.06387 30.15157 27.33479
+##  [49] 21.49262 19.14408 24.00014 19.21833 21.54476 39.75723 34.37931 27.41723
+##  [57] 26.90195 20.88075 21.56784 25.14706 34.67351 29.97450 25.59749 22.95519
+##  [65] 29.77110 28.65349 27.71551 20.94324 20.54307 29.00538 37.69582 24.45473
+##  [73] 19.27043 32.05950 34.98625 38.29421 24.41339 35.16458 33.51402 28.19963
+##  [81] 28.40824 36.67524 34.28726 26.11600 35.16782 37.03448 27.61815 31.82638
+##  [89] 18.93055 34.75350 29.40367 24.87329 30.42090 25.54680 34.49717 31.46275
+##  [97] 19.53528 26.20360 31.10930 29.22324</code></pre>
+<pre class="r"><code>data[,&#39;BMI&#39;]</code></pre>
+<pre><code>## # A tibble: 100 × 1
+##      BMI
+##    &lt;dbl&gt;
+##  1  33.3
+##  2  22.5
+##  3  34.1
+##  4  37.5
+##  5  30.9
+##  6  24.7
+##  7  30.2
+##  8  34.4
+##  9  29.2
+## 10  35.1
+## # ℹ 90 more rows</code></pre>
+<p>Importantly, you can also subset based on conditionals</p>
+<pre class="r"><code>HeartDiseaseRows = data$`Heart Disease Status` == &#39;Yes&#39;
+print(HeartDiseaseRows)</code></pre>
+<pre><code>##   [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE
+##  [13] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE
+##  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+##  [37] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE
+##  [49] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE
+##  [61]  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [73]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE
+##  [85]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE
+##  [97] FALSE FALSE FALSE FALSE</code></pre>
+<pre class="r"><code>data[HeartDiseaseRows,&#39;BMI&#39;]</code></pre>
+<pre><code>## # A tibble: 24 × 1
+##      BMI
+##    &lt;dbl&gt;
+##  1  37.5
+##  2  34.4
+##  3  35.1
+##  4  35.7
+##  5  31.0
+##  6  20.6
+##  7  33.0
+##  8  21.3
+##  9  36.8
+## 10  33.8
+## # ℹ 14 more rows</code></pre>
+<div id="example-application-statistical-testing-with-data-subsets" class="section level2">
+<h2>Example application: statistical testing with data subsets</h2>
+<p>This kind of subsetting enables you to perform comparative analyses.
+As an example, we will perform a t-test, comparing the distribution of
+BMI in patients with and without heart disease:</p>
+<pre class="r"><code>t.test(data[data$`Heart Disease Status` == &#39;Yes&#39;,&#39;BMI&#39;],data[data$`Heart Disease Status` == &#39;No&#39;,&#39;BMI&#39;])</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  data[data$`Heart Disease Status` == &quot;Yes&quot;, &quot;BMI&quot;] and data[data$`Heart Disease Status` == &quot;No&quot;, &quot;BMI&quot;]
+## t = 1.2262, df = 40.821, p-value = 0.2271
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.071546  4.383034
+## sample estimates:
+## mean of x mean of y 
+##  30.25474  28.59900</code></pre>
+<div id="bonus-example-a-linear-model-associating-bmi-with-different-factors" class="section level3">
+<h3>Bonus example: a Linear Model associating BMI with different
+factors</h3>
+<pre class="r"><code>IndepVar = data$BMI
+FactorGender = as.factor(data$Gender)
+FactorSmoking = as.factor(data$Smoking)
+FactorExercise = as.factor(data$`Exercise Habits`)
+
+summary(lm(data$BMI ~ FactorGender + FactorSmoking + FactorExercise))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = data$BMI ~ FactorGender + FactorSmoking + FactorExercise)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.5329  -5.4201   0.4577   5.0570  10.1465 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           29.0192     1.3219  21.953   &lt;2e-16 ***
+## FactorGenderMale      -1.0615     1.2075  -0.879    0.382    
+## FactorSmokingYes       1.7193     1.2379   1.389    0.168    
+## FactorExerciseLow     -0.9906     1.4822  -0.668    0.506    
+## FactorExerciseMedium  -0.4433     1.4861  -0.298    0.766    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.002 on 95 degrees of freedom
+## Multiple R-squared:  0.03109,    Adjusted R-squared:  -0.009709 
+## F-statistic: 0.762 on 4 and 95 DF,  p-value: 0.5526</code></pre>
+</div>
+</div>
 </div>
 <div id="getting-help" class="section level1">
 <h1>Getting help</h1>
