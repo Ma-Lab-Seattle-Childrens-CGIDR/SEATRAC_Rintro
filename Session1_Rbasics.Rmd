@@ -215,13 +215,30 @@ data[HeartDiseaseRows,'BMI']
 ```
 
 ## Example application: statistical testing with data subsets
-This kind of subsetting enables you to perform comparative analyses. As an example, we will perform a t-test, comparing the distribution of BMI in patients with and without heart disease:
+This kind of subsetting enables you to perform comparative analyses.
+
+As an example, we will perform a t-test, comparing the distribution of BMI in patients with and without heart disease. The R command for performing a standard Student's t-test is `t.test()`:
 
 ```{r ttest HD}
 t.test(data[data$`Heart Disease Status` == 'Yes','BMI'],data[data$`Heart Disease Status` == 'No','BMI'])
 ```
 
+# Getting help
+To get more information on a function, use the ? operator. This brings up a help page describing how the function works. These pages can be pretty dense and technical, even for longtime R users, so don't be discouraged if it's hard to understand
+```{r help ex}
+?t.test()
+```
+
+
+To see an example of how a function is used, try the 'example' function. Not every function has examples though!
+```{r example}
+example(t.test)
+```
+Note: Searching with a specific question will also return many useful tutorials online.
+
 ### Bonus example: a Linear Model associating BMI with different factors
+
+Clinical data are often analyzed by linear regression analyses. In R, the command to perform an ordinary least squares linear model is `lm()`. The `summary()` function reports several result outputs from the linear model. 
 
 ```{r linear model BMI}
 IndepVar = data$BMI
@@ -229,20 +246,8 @@ FactorGender = as.factor(data$Gender)
 FactorSmoking = as.factor(data$Smoking)
 FactorExercise = as.factor(data$`Exercise Habits`)
 
-summary(lm(data$BMI ~ FactorGender + FactorSmoking + FactorExercise))
+BMImodel = lm(IndepVar ~ FactorGender + FactorSmoking + FactorExercise)
+
+summary(BMImodel)
 ```
-
-# Getting help
-To get more information on a function, use the ? operator. This brings up a help page describing how the function works. These pages can be pretty dense and technical, even for longtime R users, so don't be discouraged if it's hard to understand
-```{r help ex}
-?sum()
-```
-
-
-To see an example of how a function is used, try the 'example' function. Not every function has examples though!
-```{r example}
-example(seq)
-```
-Note: Searching with a specific question will also return many useful tutorials online.
-
 
