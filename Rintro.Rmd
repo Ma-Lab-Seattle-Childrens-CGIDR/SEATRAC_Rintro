@@ -1,6 +1,6 @@
 ---
 title: "SEATRAC Introduction to R: Session 1"
-author: "Shuyi Ma | Adapted from materials from Kim Dill-McFarland (https://github.com/BIGslu/workshops/tree/main)"
+author: "Shuyi Ma | Adapted from materials from Kim Dill-McFarland (https://bigslu.github.io/workshops/)"
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
@@ -23,7 +23,16 @@ knitr::opts_chunk$set(echo = TRUE)
 #knitr::opts_knit$set(root.dir = #rprojroot::find_rstudio_root_file())
 ```
 
+# Before starting
+Please try to download and install R and RStudio prior to the workshop sessions with the following steps:
 
+1. Download and install R: [download link](https://cran.r-project.org/)
+2. Download and install Rstudio: [download link](https://posit.co/download/rstudio-desktop/)
+
+You should also try to download the toy dataset that we will be using to demonstrate some concepts:
+[Heart_Disease_100sampled.csv](https://github.com/Ma-Lab-Seattle-Childrens-CGIDR/SEATRAC_Rintro/raw/refs/heads/main/Heart_Disease_100sampled.csv)
+
+# Overview
 In this workshop, we'll introduce you to some R fundamentals:
 
 * R data types (numbers, strings, logicals)
@@ -128,7 +137,7 @@ numlist[numlist < 5]
 ```
 
 
-# R Packages
+# Installing Packages in R
 Many people have developed analysis tools for R that are not available in the base software. Instead, we can access these tools by downloading and installing packages. 
 
 Installations only need to happen once.
@@ -145,8 +154,9 @@ library(tidyverse)
 
 # Data importing
 
-We will use the tidyverse function `read_csv()` to import our spreadsheet into R as a tibble
+We will use the tidyverse function `read_csv()` to import our spreadsheet into R as a tibble.
 
+You will first need to navigate to the directory where you have downloaded our toy dataset, which can be done with the Dropdown menu: `Session > Set Working Directory`, or with the r command `setwd()`.
 ```{r import}
 data = read_csv('Heart_Disease_100sampled.csv')
 ```
