@@ -10,7 +10,7 @@ Thursday January 15 and February 5, 2026
 
 ## Sessions
 
-1. **Jan 15**: R/Rstudio basics, importing and subsetting data, intro to libraries. [tutorial link](Rintro)
+1. **Jan 15**: R/Rstudio basics, importing and subsetting data, intro to libraries. [tutorial link](./Rintro.html)
 2. **Feb 5**: Data manipulation with tidyverse, basic plotting. [tutorial link]()
 
 ## Installation links
