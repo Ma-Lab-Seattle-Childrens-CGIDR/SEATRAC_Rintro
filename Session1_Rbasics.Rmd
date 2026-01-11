@@ -1,6 +1,6 @@
 ---
 title: "SEATRAC Introduction to R: Session 1"
-author: "Shuyi Ma | Adapted from materials from Kim Dill-McFarland (https://bigslu.github.io/workshops/)"
+author: "Shuyi Ma | Adapted from materials from Kim Dill-McFarland's [BIGslu workshops](https://bigslu.github.io/workshops/)"
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
@@ -29,8 +29,10 @@ Please try to download and install R and RStudio prior to the workshop sessions 
 1. Download and install R: [download link](https://cran.r-project.org/)
 2. Download and install Rstudio: [download link](https://posit.co/download/rstudio-desktop/)
 
-You should also try to download the toy dataset that we will be using to demonstrate some concepts:
-[Heart_Disease_100sampled.csv](https://github.com/Ma-Lab-Seattle-Childrens-CGIDR/SEATRAC_Rintro/raw/refs/heads/main/Heart_Disease_100sampled.csv)
+You should also try to download the toy dataset that we will be using to demonstrate some concepts in these workshops:
+[Heart_Disease_100sampled.csv](https://github.com/Ma-Lab-Seattle-Childrens-CGIDR/SEATRAC_Rintro/raw/refs/heads/main/Heart_Disease_100sampled.csv). 
+
+(Note: this spreadsheet is a sub-sampled dataset from [kaggle](https://www.kaggle.com/datasets/oktayrdeki/heart-disease/data).)
 
 # Overview
 In this workshop, we'll introduce you to some R fundamentals:

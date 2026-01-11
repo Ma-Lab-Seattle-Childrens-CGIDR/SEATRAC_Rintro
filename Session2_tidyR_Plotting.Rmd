@@ -1,0 +1,346 @@
+---
+title: 'SEATRAC Introduction to R: Session 2'
+author: "Ling Wei & Shuyi Ma | adapted from the materials by Kim Dill-McFarland's [BIGslu tidyverse workshop](https://bigslu.github.io/workshops/2022.08.15_R.tidyverse.workshop/2_tidyverse.html#2_Introduction_to_the_tidyverse)"
+date: "2026-01-07"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+In this session, we will introduce you to data manipulation and visualization using `tidyverse`, a collection of R packages for data science. We will cover the following topics:
+
+* retrieving data frame specifications
+* chaining sequences of operations (pipes)
+* manipulating data frames (select, add, rearrange columns/rows)
+* calculating statistics for the data
+* data visualization (scatter plot, box plot)
+
+## Data specifications
+
+`tidyverse` is not loaded on R by default. We will load `tidyverse` first. If the package has not been installed yet, then we will need to use the `install.packages()` function to install first.
+
+```{r library}
+library(tidyverse)
+```
+We will use the toy heart disease dataset to demonstrate the use of tidyverse for data manipulation and visualization in this session. Here is the link to download: [Heart_Disease_100sampled.csv](https://github.com/Ma-Lab-Seattle-Childrens-CGIDR/SEATRAC_Rintro/blob/main/Heart_Disease_100sampled.csv)
+
+(Note: this spreadsheet is a sub-sampled dataset from [kaggle](https://www.kaggle.com/datasets/oktayrdeki/heart-disease/data).)
+
+```{r data}
+data <- read_csv("Heart_Disease_100sampled.csv")
+```
+Let's first check the dimension of the data.
+
+```{r dimension}
+dim(data)
+```
+This dataset contains 100 rows (not including header) and 22 columns.
+
+We can extract and display the full column specification for the data.
+
+```{r specification}
+spec(data)
+```
+This will tell you the data types (e.g., character, double, integer, logical) for each column in the data frame.
+
+If you'd like to have a better idea about the structure or content of the data:
+
+```{r view}
+View(data)
+```
+
+This will open a new tab to display data in a table format, where you can browse, sort, or search within the data, but you cannot edit the data (read-only) through this interface.
+
+## Pipes
+
+Oftentimes your code contains multiple nested parenthesis, which makes it hard to read and understand. The pipe operator `%>%` allows you to transform complex nested operations into a linear sequence of operations, significantly increase the readability of the code. 
+
+Another potential advantage is that if you use a pipe to perform a series of operations, then you also won't need to store intermediate outputs as separate variables. This might make it easier to keep track of which output variables you actually care about.
+
+I will write the code in both conventional and piped formats in this session. Feel free to use whichever you are more comfortable with!
+
+## Columns
+
+We will work on data frame columns first. To pick specific columns from a data frame, you can use the `select()` function in `dplyr` package and refer to columns by name, position, or specific criteria.
+
+To select a single column by name:
+
+```{r select single column}
+# conventional
+select(data, ptID)
+
+# piped
+data %>%
+  select(ptID)
+```
+To select multiple columns by name:
+
+```{r select multiple columns}
+# conventional
+select(data, ptID, `Triglyceride Level`, `Heart Disease Status`)
+
+# piped
+data %>%
+  select(ptID, `Triglyceride Level`, `Heart Disease Status`)
+```
+You can also select all columns between two specific columns in a data frame by specifying the names of the first and the last columns that you'd like to include.
+
+```{r select between columns}
+# conventional
+select(data, ptID:BMI)
+
+# piped
+data %>%
+  select(ptID:BMI)
+```
+This will give you all the columns in the example dataset between (and including) columns "ptID" and "BMI".
+
+You can use the `select()` function to exclude one particular column in a data frame. For instance, if you want to retrieve all the measurements in the example dataset except for sleep hours, you can simply specify its column name with the `!`:
+
+```{r exclude column}
+# conventional
+select(data, !`Sleep Hours`)
+
+# piped
+data %>%
+  select(!`Sleep Hours`)
+```
+
+Column names can be changed as well if you are not happy with them (e.g., you can add spaces or not change to a more descriptive name). You can use the `rename()` function in `dplyr` package to do it.
+
+```{r rename column name}
+# conventional
+rename(data, Blood_pressure = `Blood Pressure`)
+
+# piped
+data %>%
+  rename(Blood_pressure = `Blood Pressure`)
+```
+This will replace the space with an underscore in column "Blood Pressure".
+
+You can also create new columns or modify existing columns in a data frame using the `mutate()` function in `dplyr` package. For instance, if you want to add a new column to say if the number of sleep hours for each patient is recommended (let's assume 7+ hours is recommended here), you can call the `mutate()` function with a simple `if-else` statement in it.
+
+Note: the `if_else()` function has a 3 required inputs: your conditional statement, the output if true, the output if false.
+
+```{r create new column}
+# conventional
+data_new <- mutate(data, `Sleep Hours Recommended` = if_else(`Sleep Hours` > 7.0, "Yes", "No"))
+
+# piped
+data_new <- data %>%
+  mutate(`Sleep Hours Recommended` = if_else(`Sleep Hours` > 7.0, "Yes", "No"))
+```
+
+This will add a new column of character data type named "Sleep Hours Recommended" to the end of the original data frame.
+
+```{r new data}
+View(data_new)
+```
+
+If you'd like to move this new column right after the "Sleep Hours" column, you can use the `relocate()` function in `dplyr` package to do it.
+
+```{r change column position}
+# conventional
+relocate(data_new, `Sleep Hours Recommended`, .after = `Sleep Hours`)
+
+# piped
+data_new %>%
+  relocate(`Sleep Hours Recommended`, .after = `Sleep Hours`)
+```
+
+## Rows
+
+Let's work on subsetting data frame rows using functions from the dplyr package. Similar to column manipulations, you can select specific rows from a data frame by position, value of a variable, or specific criteria.
+
+For example, if you want to extract all the measurements for patients who smoke, you can use the `filter()` function to keep rows in the data frame that match this criteria:
+
+```{r select rows single condition}
+# conventional
+filter(data, Smoking == "Yes")
+
+# piped
+data %>%
+  filter(Smoking == "Yes")
+```
+You can also add more criteria to the selection using `&` (and) or `|` (or) operators. For instance, if you want to extract data from patients who not only smoke but also do not exercise regularly, simply add that condition into the argument like this:
+
+```{r select rows multiple conditions}
+# conventional
+filter(data, Smoking == "Yes" & `Exercise Habits` == "Low")
+
+# piped
+data %>%
+  filter(Smoking == "Yes" & `Exercise Habits` == "Low")
+```
+You can also subset rows by specifying their row indexes in a data frame using the `slice()` function in `dplyr` package.
+
+```{r select rows by position}
+# conventional
+slice(data, 20:50)
+
+# piped
+data %>%
+  slice(20:50)
+```
+This will give you all the rows between and including row 20 and row 50 in the example dataset.
+
+If you want to get the first or the last number of rows from a data frame, use the `slice_head()` or `slice_tail()` function, respectively, and specify the number of rows you'd like to subset.
+
+```{r select first or last rows}
+# conventional
+slice_head(data, n=5)
+slice_tail(data, n=5)
+
+# piped
+data %>%
+  slice_head(n=5)
+
+data %>%
+  slice_tail(n=5)
+```
+You can also randomly select rows from a data frame. This can be done with the `slice_sample()` function in `dplyr` package. For instance, if you want to get data from 10 patients that are randomly sampled from the 100 patients in the example dataset:
+
+```{r randomly select rows}
+# conventional
+slice_sample(data, n = 10)
+
+# piped
+data %>%
+  slice_sample(n = 10)
+```
+Row selections can also be done based on the values of a particular variable in a data frame. For example, you can use the `slice_min()` function to extract data from the five patients with the lowest BMI:
+
+```{r select rows with lowest values}
+# conventional
+slice_min(data, order_by = BMI, n=5)
+
+# piped
+data %>%
+  slice_min(order_by = BMI, n=5)
+```
+Or if you want to get data from the five oldest patients, use the `slice_max()` function:
+
+```{r select rows with highest values}
+# conventional
+slice_max(data, order_by = Age, n=5)
+
+# piped
+data %>%
+  slice_max(order_by = Age, n=5)
+```
+You can also reorder the rows of the entire data frame based on values of one or more columns using the `arrange()` function in `dplyr` package. The rows are sorted in ascending order by default, but you can use the `desc()` helper function to sort in descending order.
+
+```{r sort rows}
+# conventional
+arrange(data, Age) # ascending order
+arrange(data, desc(Age)) # descending order
+
+#piped
+data %>%
+  arrange(Age) # ascending order
+
+data %>%
+  arrange(desc(Age)) # descending order
+```
+
+## Statistics
+
+To calculate some summary statistics for the data, you can use the `summarise()` function in `dplyr` package, which reduces multiple values from a data frame into a single or multiple summary statistics.
+
+```{r statistics}
+# center of the data - mean and median
+summarise(data, mean(BMI), median(BMI)) # conventional
+
+data %>%
+  summarise(mean(BMI), median(BMI)) # piped
+
+# spread of the data - standard deviation and variance
+summarise(data, sd(BMI), var(BMI)) # conventional
+
+data %>%
+  summarise(sd(BMI), var(BMI)) # piped
+
+# range of the data - minimum and maximum
+summarise(data, min(BMI), max(BMI)) # conventional
+
+data %>%
+  summarise(min(BMI), max(BMI)) # piped
+```
+
+## Getting help
+
+If you want to learn more about the `dplyr` package, please refer to this "Introduction to dplyr" guide, which provides a comprehensive and detailed description of the package (including examples).
+
+```{r introduction to dplyr}
+vignette("dplyr")
+```
+
+## Data visualization
+
+We will make some simple plots from the toy dataset using `ggplot2`, a widely used R package for data visualization. `ggplot2` allows you to build complex plots layer by layer through the `+` operator. You will first use `ggplot()` to define the plot and aesthetic mappings (e.g., axes, color, size). You will then add layers to define the geometry (e.g., points, lines, bars) of the plot. You can also add layers to create subplots, add title and axis labels, and save the plot.
+
+# scatter plot
+
+We will start with scatter plots. We will make a basic scatter plot of "Fasting Blood Sugar" against "Homocysteine Level" using the default settings.
+
+```{r basic scatter plot}
+# plotting fasting blood sugar vs. homocysteine levels of patients
+data %>%
+  ggplot(aes(x = `Fasting Blood Sugar`, y = `Homocysteine Level`)) +
+  geom_point()
+```
+
+We can color code the data points by gender by adding a `color` argument.
+
+```{r colored scatter plot}
+data %>%
+  ggplot(aes(x = `Fasting Blood Sugar`, y = `Homocysteine Level`, color = Gender)) +
+  geom_point()
+```
+To help visualize patterns and trends in the data, you can use the `geom_smooth()` function to fit a model to the data and overlay a trend line to the plot. It also displays shaded 95% confidence interval by default (you can hide or adjust it in the arguments). You can specify the function to use for fitting the model (smoothing function) via the `method` argument.
+
+For example, if you want to add linear regression lines to the plot above, you can add a layer of smoothing function `geom_smooth()` and put `lm` in the "method" argument.
+
+```{r regression line}
+data %>%
+  ggplot(aes(x = `Fasting Blood Sugar`, y = `Homocysteine Level`, color = Gender)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE)
+```
+Since we group the data by gender here, the fitting is applied to female and male patient data separately.
+
+# box-and-whisker plot
+
+We will make some box-and-whisker plots to visualize the distribution of data between groups. We will start with a basic box plot on triglyceride level for patients with or without heart disease. We will use `geom_boxplot()` to define the box plot. If you want the y axis to show the full data range and hide the outliers, specify in the argument with `outlier.shape = NA`. You can use the `geom_jitter()` function to display individual data points, which also adds a small amount of random noise to the position (horizontal in this case) of each point for easy visualization.
+
+```{r basic box plot}
+data %>%
+  ggplot(aes(x = `Heart Disease Status`, y = `Triglyceride Level`)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter()
+```
+By default, `geom_boxplot()` does not include error bars (or whisker end-bars) in the plot. You can call the `stat_boxplot()` function to add horizontal lines at the end of whiskers.
+
+```{r error bars}
+data %>%
+  ggplot(aes(x = `Heart Disease Status`, y = `Triglyceride Level`)) +
+  geom_boxplot(outlier.shape = NA) +
+  stat_boxplot(geom = "errorbar", width = 0.2) +
+  geom_jitter()
+```
+You can also color code the boxes, bars, and individual data points by groups. To do so, simply add an argument `color` in the aesthetics function `aes()`.
+
+```{r colored box plot}
+# color by groups
+data %>%
+  ggplot(aes(x = `Heart Disease Status`, y = `Triglyceride Level`, color = `Heart Disease Status`)) +
+  geom_boxplot(outlier.shape = NA) +
+  stat_boxplot(geom = "errorbar", width = 0.2) +
+  geom_jitter()
+```
