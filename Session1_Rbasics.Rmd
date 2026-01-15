@@ -42,8 +42,36 @@ In this workshop, we'll introduce you to some R fundamentals:
 * Subsetting data frames / tibbles
 * Introduction to packages
 
+## A Tour of RStudio
+
+We will do all of our work in [RStudio](https://www.rstudio.com/). RStudio is an integrated development and analysis environment for R that brings a number of conveniences over using R in a terminal or other editing environments.
+
+When you start RStudio, you will see something like the following window appear:
+
+![](RstudioScreenshot.png)
+
+Notice that the window is divided into four "panes":
+
+- Console (the left bottom): This is your view into the R engine. You can type in R commands here and see the output printed by R. (To make it easier to tell them apart, your input and the resulting output are printed in different colors.) There are several editing conveniences available: use up and down arrow keys to go back to previously entered commands, which can then be edited and re-run; TAB for completing the name before the cursor; see more in [online docs](http://www.rstudio.com/ide/docs/using/keyboard_shortcuts).
+
+- Environment/History (tabbed in upper right): View current user-defined objects and previously-entered commands, respectively. The instructor may have additional tabs like Connection, Git, etc. These are not relevant to this workshop series.
+
+- Files/Plots/Packages/Help (tabbed in lower right): As their names suggest, these are used to view the contents of the current directory, graphics created by the user, install packages, and view the built-in help pages.
+
+- R script (left top): this is where you can save your code in a .R script file for future use. R script files are the primary way in which R facilitates reproducible research. R scripts maintain a record of everything that is done to the raw data to reach the final result. That way, it is very easy to write up and communicate your methods because you have a document listing the precise steps you used to conduct your analyses. 
+
+To change the look of RStudio, you can go to Tools -> Global Options -> Appearance and select colors, font size, etc. If you plan to be working for longer periods, we suggest choosing a dark background color scheme to save your computer battery and your eyes.
+
+## R scripts
+
+Generally, if you are testing an operation (*e.g.* what would my data look like if I applied a log-transformation to it?), you should do it in the console (left pane of RStudio). If you are committing a step to your analysis (*e.g.* I want to apply a log-transformation to my data and then conduct the rest of my analyses on the log-transformed data), you should add it to your R script so that it is saved for future use. 
+
+**Important:** You should annotate your R scripts with comments. In each line of code, any text preceded by the `#` symbol will not execute. Comments can be useful to remind yourself and to tell other readers what a specific chunk of code does. In my experience, there can never be too much commenting. 
+
+Let's create an R script `(File > New File > R Script)` and save it as `introR_live_notes.R` in your main project directory. If you again look to the project directory on your computer, you will see `introR_live_notes.R` is now saved there. We will work together to create and populate the `introR_live_notes.R` script throughout this workshop. 
+
 # Basic data types
-With R open, you will see a prompt '>'. Enter anything after this prompt, and R will try and evaluate it. R can evaluate 3 types of data:
+With R open, you will see a prompt '>' in the Console area (bottom left). Enter anything after this prompt, and R will try and evaluate it. R can evaluate 3 types of data:
 
 * numbers and mathematical expressions
 * quoted text (strings) 
