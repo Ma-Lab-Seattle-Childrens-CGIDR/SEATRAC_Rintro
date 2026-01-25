@@ -22,6 +22,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ##set working dir to project
 #knitr::opts_knit$set(root.dir = #rprojroot::find_rstudio_root_file())
 ```
+# Video
+A video of this tutorial can be found here: [video link](https://youtu.be/e_emSu9dX1o).
 
 # Before starting
 Please try to download and install R and RStudio prior to the workshop sessions with the following steps:
@@ -266,7 +268,9 @@ example(t.test)
 ```
 Note: Searching with a specific question will also return many useful tutorials online.
 
-### Bonus example: a Linear Model associating BMI with different factors
+### Bonus example: a Linear Model 
+
+In this example, we're going to apply linear regression analysis to test the statistical association of BMI with different other patient factors.
 
 Clinical data are often analyzed by linear regression analyses. In R, the command to perform an ordinary least squares linear model is `lm()`. The `summary()` function reports several result outputs from the linear model. 
 
