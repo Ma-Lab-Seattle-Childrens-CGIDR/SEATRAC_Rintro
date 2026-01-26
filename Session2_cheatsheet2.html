@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Session 2 Command Cheatsheet</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="session-2-command-cheatsheet">Session 2 Command Cheatsheet</h1>
+<p>This cheatsheet contains useful <code>dplyr</code> and <code>ggplot</code> commands that we will be covering in the Session 2 tutorial.</p>
+<h2 id="loading-the-package-and-importing-the-spreadsheet">Loading the package and importing the spreadsheet</h2>
+<pre><code class="language-r"><span class="hljs-comment"># load package</span>
+library<span class="hljs-punctuation">(</span>tidyverse<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># load dataset</span>
+data <span class="hljs-operator">=</span> read_csv<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Heart_Disease_100sampled.csv&quot;</span><span class="hljs-punctuation">)</span>
+</code></pre>
+<h2 id="data-specifications">Data specifications</h2>
+<pre><code class="language-r"><span class="hljs-comment"># check data frame dimension</span>
+<span class="hljs-built_in">dim</span><span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># display full column specification for the data</span>
+spec<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># preview of the data frame</span>
+View<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">)</span>
+</code></pre>
+<h2 id="columns">Columns</h2>
+<pre><code class="language-r"><span class="hljs-comment"># select single column</span>
+select<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> ptID<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># select multiple columns</span>
+select<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> ptID<span class="hljs-punctuation">,</span> BMI<span class="hljs-punctuation">,</span> `CRP Level`<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># select range of columns</span>
+select<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> ptID<span class="hljs-operator">:</span>BMI<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># exclude a column</span>
+select<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> <span class="hljs-operator">!</span>`Sleep Hours`<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># rename column header</span>
+data_renameAge <span class="hljs-operator">=</span> rename<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> `Age (Year)` <span class="hljs-operator">=</span> Age<span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># add new column</span>
+data_addCol <span class="hljs-operator">=</span> mutate<span class="hljs-punctuation">(</span>data_renameAge<span class="hljs-punctuation">,</span> `Age (Month)` <span class="hljs-operator">=</span> `Age (Year)` <span class="hljs-operator">*</span> <span class="hljs-number">12</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># move column</span>
+relocate<span class="hljs-punctuation">(</span>data_addCol<span class="hljs-punctuation">,</span> `Age (Month)`<span class="hljs-punctuation">,</span> .after <span class="hljs-operator">=</span> `Age (Year)`<span class="hljs-punctuation">)</span>
+</code></pre>
+<h2 id="rows">Rows</h2>
+<pre><code class="language-r"><span class="hljs-comment"># select rows by criteria</span>
+filter<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> Smoking <span class="hljs-operator">==</span> <span class="hljs-string">&quot;Yes&quot;</span><span class="hljs-punctuation">)</span>
+filter<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> Smoking <span class="hljs-operator">==</span> <span class="hljs-string">&quot;Yes&quot;</span> <span class="hljs-operator">&amp;</span> `Exercise Habits` <span class="hljs-operator">==</span> <span class="hljs-string">&quot;Low&quot;</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># select rows by index</span>
+slice<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> <span class="hljs-number">20</span><span class="hljs-operator">:</span><span class="hljs-number">50</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># select top/bottom rows</span>
+slice_head<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> n<span class="hljs-operator">=</span><span class="hljs-number">5</span><span class="hljs-punctuation">)</span>
+slice_tail<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> n<span class="hljs-operator">=</span><span class="hljs-number">5</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># randomly select rows</span>
+slice_sample<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> n <span class="hljs-operator">=</span> <span class="hljs-number">10</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># select top rows based on variable</span>
+slice_min<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> order_by <span class="hljs-operator">=</span> BMI<span class="hljs-punctuation">,</span> n<span class="hljs-operator">=</span><span class="hljs-number">5</span><span class="hljs-punctuation">)</span>
+slice_max<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> order_by <span class="hljs-operator">=</span> Age<span class="hljs-punctuation">,</span> n<span class="hljs-operator">=</span><span class="hljs-number">5</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># sort data frame</span>
+arrange<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> Age<span class="hljs-punctuation">)</span>
+arrange<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> desc<span class="hljs-punctuation">(</span>Age<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span>
+</code></pre>
+<h2 id="statistics">Statistics</h2>
+<pre><code class="language-r"><span class="hljs-comment"># mean and median</span>
+summarise<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> mean<span class="hljs-punctuation">(</span>BMI<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> median<span class="hljs-punctuation">(</span>BMI<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># standard deviation and variance</span>
+summarise<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> sd<span class="hljs-punctuation">(</span>BMI<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> var<span class="hljs-punctuation">(</span>BMI<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span>
+
+<span class="hljs-comment"># minimum and maximum</span>
+summarise<span class="hljs-punctuation">(</span>data<span class="hljs-punctuation">,</span> <span class="hljs-built_in">min</span><span class="hljs-punctuation">(</span>BMI<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">max</span><span class="hljs-punctuation">(</span>BMI<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span>
+</code></pre>
+<h2 id="getting-help">Getting help</h2>
+<pre><code class="language-r"><span class="hljs-comment"># introduction to dplyr</span>
+vignette<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;dplyr&quot;</span><span class="hljs-punctuation">)</span>
+</code></pre>
+<h2 id="data-visualization">Data visualization</h2>
+<h3 id="scatter-plot">Scatter plot</h3>
+<pre><code class="language-r">data <span class="hljs-operator">%&gt;%</span>
+  ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> `Fasting Blood Sugar`<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> `Homocysteine Level`<span class="hljs-punctuation">,</span> color <span class="hljs-operator">=</span> Gender<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  geom_point<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  theme_bw<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  labs<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Fasting Blood Sugar [mg/dL]&quot;</span><span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> <span class="hljs-string">&quot;CRP Level [mg/L]&quot;</span><span class="hljs-punctuation">,</span> title <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Fasting blood sugar VS CRP level&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  theme<span class="hljs-punctuation">(</span>
+    axis.title.x <span class="hljs-operator">=</span> element_text<span class="hljs-punctuation">(</span>size <span class="hljs-operator">=</span> <span class="hljs-number">14</span><span class="hljs-punctuation">,</span> color <span class="hljs-operator">=</span> <span class="hljs-string">&quot;red&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>
+    axis.title.y <span class="hljs-operator">=</span> element_text<span class="hljs-punctuation">(</span>size <span class="hljs-operator">=</span> <span class="hljs-number">14</span><span class="hljs-punctuation">,</span> color <span class="hljs-operator">=</span> <span class="hljs-string">&quot;blue&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>
+    plot.title <span class="hljs-operator">=</span> element_text<span class="hljs-punctuation">(</span>hjust <span class="hljs-operator">=</span> <span class="hljs-number">0.5</span><span class="hljs-punctuation">,</span> face <span class="hljs-operator">=</span> <span class="hljs-string">&quot;bold&quot;</span><span class="hljs-punctuation">,</span> size <span class="hljs-operator">=</span> <span class="hljs-number">18</span><span class="hljs-punctuation">,</span> color <span class="hljs-operator">=</span> <span class="hljs-string">&quot;black&quot;</span><span class="hljs-punctuation">)</span>
+    <span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  geom_smooth<span class="hljs-punctuation">(</span>method <span class="hljs-operator">=</span> <span class="hljs-string">&quot;lm&quot;</span><span class="hljs-punctuation">,</span> se <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span>
+</code></pre>
+<h3 id="box-and-whisker-plot">Box-and-whisker plot</h3>
+<pre><code class="language-r">data <span class="hljs-operator">%&gt;%</span>
+  ggplot<span class="hljs-punctuation">(</span>aes<span class="hljs-punctuation">(</span>x <span class="hljs-operator">=</span> `Heart Disease Status`<span class="hljs-punctuation">,</span> y <span class="hljs-operator">=</span> `Triglyceride Level`<span class="hljs-punctuation">,</span> color <span class="hljs-operator">=</span> `Heart Disease Status`<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  geom_boxplot<span class="hljs-punctuation">(</span>outlier.shape <span class="hljs-operator">=</span> <span class="hljs-literal">NA</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  stat_boxplot<span class="hljs-punctuation">(</span>geom <span class="hljs-operator">=</span> <span class="hljs-string">&quot;errorbar&quot;</span><span class="hljs-punctuation">,</span> width <span class="hljs-operator">=</span> <span class="hljs-number">0.2</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  geom_jitter<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">+</span>
+  theme_bw<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span>
+</code></pre>
+
+            
+            
+        </body>
+        </html>
