@@ -1,0 +1,694 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={SEATRAC Introduction to R: Session 2},
+  pdfauthor={Ling Wei \& Shuyi Ma \textbar{} adapted from the materials by Kim Dill-McFarland's BIGslu tidyverse workshop},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{SEATRAC Introduction to R: Session 2}
+\author{Ling Wei \& Shuyi Ma \textbar{} adapted from the materials by
+Kim Dill-McFarland's
+\href{https://bigslu.github.io/workshops/2022.08.15_R.tidyverse.workshop/2_tidyverse.html\#2_Introduction_to_the_tidyverse}{BIGslu
+tidyverse workshop}}
+\date{version January 26, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Overview}\label{overview}
+
+In this session, we will introduce you to data manipulation and
+visualization using \texttt{tidyverse}, a collection of R packages for
+data science. We will cover the following topics:
+
+\begin{itemize}
+\tightlist
+\item
+  retrieving data frame specifications
+\item
+  chaining sequences of operations (pipes)
+\item
+  manipulating data frames (select, add, rearrange columns/rows)
+\item
+  calculating statistics for the data
+\item
+  data visualization (scatter plot, box plot)
+\end{itemize}
+
+If you would like to see an overview of commands we are discussing in
+this workshop, this
+\href{https://ma-lab-seattle-childrens-cgidr.github.io/SEATRAC_Rintro/Session2_cheatsheet2.html}{cheatsheet}
+provides them in a concise view.
+
+\section{Data specifications}\label{data-specifications}
+
+\texttt{tidyverse} is not loaded on R by default. We will load
+\texttt{tidyverse} first. If the package has not been installed yet,
+then we will need to use the \texttt{install.packages()} function to
+install first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'readr' was built under R version 4.5.2
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.6
+## v forcats   1.0.1     v stringr   1.6.0
+## v ggplot2   3.5.2     v tibble    3.3.0
+## v lubridate 1.9.4     v tidyr     1.3.1
+## v purrr     1.2.0     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+We will use the toy heart disease dataset to demonstrate the use of
+tidyverse for data manipulation and visualization in this session. Here
+is the link to download:
+\href{https://github.com/Ma-Lab-Seattle-Childrens-CGIDR/SEATRAC_Rintro/blob/main/Heart_Disease_100sampled.csv}{Heart\_Disease\_100sampled.csv}
+
+(Note: this spreadsheet is a sub-sampled dataset from
+\href{https://www.kaggle.com/datasets/oktayrdeki/heart-disease/data}{kaggle}.)
+
+To make things a bit easier, we can set our working directory to where
+the dataset and the R script are. To do so, navigate to Session
+-\textgreater{} Set Working Directory -\textgreater{} Choose Directory,
+and then select its location on your computer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{=} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"Heart\_Disease\_100sampled.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 100 Columns: 22
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (13): ptID, Gender, Exercise Habits, Smoking, Family Heart Disease, Diab...
+## dbl  (9): Age, Blood Pressure, Cholesterol Level, BMI, Sleep Hours, Triglyce...
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+Let's first check the dimension of the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100  22
+\end{verbatim}
+
+We can extract and display the full column specification for the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{spec}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## cols(
+##   ptID = col_character(),
+##   Age = col_double(),
+##   Gender = col_character(),
+##   `Blood Pressure` = col_double(),
+##   `Cholesterol Level` = col_double(),
+##   `Exercise Habits` = col_character(),
+##   Smoking = col_character(),
+##   `Family Heart Disease` = col_character(),
+##   Diabetes = col_character(),
+##   BMI = col_double(),
+##   `High Blood Pressure` = col_character(),
+##   `Low HDL Cholesterol` = col_character(),
+##   `High LDL Cholesterol` = col_character(),
+##   `Alcohol Consumption` = col_character(),
+##   `Stress Level` = col_character(),
+##   `Sleep Hours` = col_double(),
+##   `Sugar Consumption` = col_character(),
+##   `Triglyceride Level` = col_double(),
+##   `Fasting Blood Sugar` = col_double(),
+##   `CRP Level` = col_double(),
+##   `Homocysteine Level` = col_double(),
+##   `Heart Disease Status` = col_character()
+## )
+\end{verbatim}
+
+This will tell you the data types (e.g., character, double, integer,
+logical) for each column in the data frame.
+
+If you'd like to have a better idea about the structure or content of
+the data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{View}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+This will open a new tab to display a preview of the data (maximum 1,000
+rows and 50 columns) in a table format, where you can browse, sort, or
+search within the data, but you cannot edit the data (read-only) through
+this interface.
+
+\section{Columns}\label{columns}
+
+We will work on data frame columns first. To pick specific columns from
+a data frame, you can use the \texttt{select()} function in
+\texttt{dplyr} package and refer to columns by name, position, or
+specific criteria.
+
+To select a single column by name:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_ptID }\OtherTok{=} \FunctionTok{select}\NormalTok{(data, ptID)}
+\end{Highlighting}
+\end{Shaded}
+
+To select multiple columns by name:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_multipleCols }\OtherTok{=} \FunctionTok{select}\NormalTok{(data, ptID, BMI, }\StringTok{\textasciigrave{}}\AttributeTok{CRP Level}\StringTok{\textasciigrave{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Column names can be changed as well (e.g., you can remove spaces or use
+a more descriptive name). You can use the \texttt{rename()} function in
+\texttt{dplyr} package to do it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_renameAge }\OtherTok{=} \FunctionTok{rename}\NormalTok{(data, }\StringTok{\textasciigrave{}}\AttributeTok{Age (Year)}\StringTok{\textasciigrave{}} \OtherTok{=}\NormalTok{ Age)}
+\end{Highlighting}
+\end{Shaded}
+
+This will add the unit ``Year'' for the ``Age'' column.
+
+You can also create new columns or modify existing columns in a data
+frame using the \texttt{mutate()} function in \texttt{dplyr} package.
+For instance, if you want to add a new column to convert age in year to
+age in month:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_addCol }\OtherTok{=} \FunctionTok{mutate}\NormalTok{(data\_renameAge, }\StringTok{\textasciigrave{}}\AttributeTok{Age (Month)}\StringTok{\textasciigrave{}} \OtherTok{=} \StringTok{\textasciigrave{}}\AttributeTok{Age (Year)}\StringTok{\textasciigrave{}} \SpecialCharTok{*} \DecValTok{12}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This will add a new column named ``Age (Month)'' to the end of the
+original data frame.
+
+If you'd like to move this new column right after the ``Age (Year)''
+column, you can use the \texttt{relocate()} function in \texttt{dplyr}
+package to do it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_addCol\_rearrange }\OtherTok{=} \FunctionTok{relocate}\NormalTok{(data\_addCol, }\StringTok{\textasciigrave{}}\AttributeTok{Age (Month)}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{.after =} \StringTok{\textasciigrave{}}\AttributeTok{Age (Year)}\StringTok{\textasciigrave{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Rows}\label{rows}
+
+Let's work on subsetting data frame rows using functions from the dplyr
+package. Similar to column manipulations, you can select specific rows
+from a data frame by position, value of a variable, or specific
+criteria.
+
+For example, if you want to extract all the measurements for patients
+who smoke, you can use the \texttt{filter()} function to keep rows in
+the data frame that match this criteria:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_smoke }\OtherTok{=} \FunctionTok{filter}\NormalTok{(data, Smoking }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can also add more criteria to the selection using \texttt{\&} (and)
+or \texttt{\textbar{}} (or) operators. For instance, if you want to
+extract data from patients who not only smoke but also do not exercise
+regularly, simply add that condition into the argument like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_smoke\_noExcercise }\OtherTok{=} \FunctionTok{filter}\NormalTok{(data, Smoking }\SpecialCharTok{==} \StringTok{"Yes"} \SpecialCharTok{\&} \StringTok{\textasciigrave{}}\AttributeTok{Exercise Habits}\StringTok{\textasciigrave{}} \SpecialCharTok{==} \StringTok{"Low"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can also subset rows by specifying their row indexes in a data frame
+using the \texttt{slice()} function in \texttt{dplyr} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_subsetRows }\OtherTok{=} \FunctionTok{slice}\NormalTok{(data, }\DecValTok{20}\SpecialCharTok{:}\DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This will give you all the rows between and including row 20 and row 50
+in the example dataset.
+
+You can also reorder the rows of the entire data frame based on values
+of one or more columns using the \texttt{arrange()} function in
+\texttt{dplyr} package. The rows are sorted in ascending order by
+default, but you can use the \texttt{desc()} helper function to sort in
+descending order.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_asc }\OtherTok{=} \FunctionTok{arrange}\NormalTok{(data, Age) }\CommentTok{\# ascending order}
+\NormalTok{data\_desc }\OtherTok{=} \FunctionTok{arrange}\NormalTok{(data, }\FunctionTok{desc}\NormalTok{(Age)) }\CommentTok{\# descending order}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Statistics}\label{statistics}
+
+To calculate some summary statistics for the data, you can use the
+\texttt{summarise()} function in \texttt{dplyr} package, which reduces
+multiple values from a data frame into a single or multiple summary
+statistics.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summarise}\NormalTok{(data, }\FunctionTok{mean}\NormalTok{(BMI), }\FunctionTok{median}\NormalTok{(BMI)) }\CommentTok{\# mean and median}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   `mean(BMI)` `median(BMI)`
+##         <dbl>         <dbl>
+## 1        29.0          29.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summarise}\NormalTok{(data, }\FunctionTok{sd}\NormalTok{(BMI), }\FunctionTok{var}\NormalTok{(BMI)) }\CommentTok{\# standard deviation and variance}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   `sd(BMI)` `var(BMI)`
+##       <dbl>      <dbl>
+## 1      5.97       35.7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summarise}\NormalTok{(data, }\FunctionTok{min}\NormalTok{(BMI), }\FunctionTok{max}\NormalTok{(BMI)) }\CommentTok{\# minimum and maximum}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 2
+##   `min(BMI)` `max(BMI)`
+##        <dbl>      <dbl>
+## 1       18.2       39.8
+\end{verbatim}
+
+\subsection{Getting help}\label{getting-help}
+
+If you want to learn more about the \texttt{dplyr} package, please refer
+to this ``Introduction to dplyr'' guide, which provides a comprehensive
+and detailed description of the package (including examples).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vignette}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## starting httpd help server ... done
+\end{verbatim}
+
+\subsection{Bonus}\label{bonus}
+
+To select all columns between two specific columns in a data frame, you
+can specify the names of the first and the last columns that you'd like
+to include.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_colsRange }\OtherTok{=} \FunctionTok{select}\NormalTok{(data, ptID}\SpecialCharTok{:}\NormalTok{BMI)}
+\end{Highlighting}
+\end{Shaded}
+
+This will give you all the columns in the example dataset between (and
+including) columns ``ptID'' and ``BMI''.
+
+You can also use the \texttt{select()} function to exclude one
+particular column in a data frame. For instance, if you want to retrieve
+all the measurements in the example dataset except for sleep hours, you
+can simply specify its column name with the \texttt{!}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_excludeCol }\OtherTok{=} \FunctionTok{select}\NormalTok{(data, }\SpecialCharTok{!}\StringTok{\textasciigrave{}}\AttributeTok{Sleep Hours}\StringTok{\textasciigrave{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+If you want to get the first or the last number of rows from a data
+frame, use the \texttt{slice\_head()} or \texttt{slice\_tail()}
+function, respectively, and specify the number of rows you'd like to
+subset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_headRows }\OtherTok{=} \FunctionTok{slice\_head}\NormalTok{(data, }\AttributeTok{n=}\DecValTok{5}\NormalTok{)}
+\NormalTok{data\_tailRows }\OtherTok{=} \FunctionTok{slice\_tail}\NormalTok{(data, }\AttributeTok{n=}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can also randomly select rows from a data frame. This can be done
+with the \texttt{slice\_sample()} function in \texttt{dplyr} package.
+For instance, if you want to get data from 10 patients that are randomly
+sampled from the 100 patients in the example dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_randomRows }\OtherTok{=} \FunctionTok{slice\_sample}\NormalTok{(data, }\AttributeTok{n =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Row selections can also be done based on the values of a particular
+variable in a data frame. For example, you can use the
+\texttt{slice\_min()} function to extract data from the five patients
+with the lowest BMI:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_lowBMI }\OtherTok{=} \FunctionTok{slice\_min}\NormalTok{(data, }\AttributeTok{order\_by =}\NormalTok{ BMI, }\AttributeTok{n=}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Or if you want to get data from the five oldest patients, use the
+\texttt{slice\_max()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_oldPt }\OtherTok{=} \FunctionTok{slice\_max}\NormalTok{(data, }\AttributeTok{order\_by =}\NormalTok{ Age, }\AttributeTok{n=}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Pipes}\label{pipes}
+
+Oftentimes your code contains multiple nested parenthesis, which makes
+it hard to read and understand. The pipe operator
+\texttt{\%\textgreater{}\%} allows you to transform complex nested
+operations into a linear sequence of operations, significantly increase
+the readability of the code.
+
+Another potential advantage is that if you use a pipe to perform a
+series of operations, then you also won't need to store intermediate
+outputs as separate variables. This might make it easier to keep track
+of which output variables you actually care about.
+
+For example, to select a single column from the data frame using a pipe:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(ptID)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 100 x 1
+##    ptID   
+##    <chr>  
+##  1 pt 7186
+##  2 pt 7572
+##  3 pt 2570
+##  4 pt 8253
+##  5 pt 5216
+##  6 pt 3775
+##  7 pt 7529
+##  8 pt 8049
+##  9 pt 1862
+## 10 pt 8058
+## # i 90 more rows
+\end{verbatim}
+
+We will write the code in piped format in the rest of this workshop.
+
+\section{Data visualization}\label{data-visualization}
+
+We will make some simple plots from the toy dataset using
+\texttt{ggplot2}, a widely used R package for data visualization.
+\texttt{ggplot2} allows you to build complex plots layer by layer
+through the \texttt{+} operator. You will first use \texttt{ggplot()} to
+define the plot and aesthetic mappings (e.g., axes, color, size). You
+will then add layers to define the geometry (e.g., points, lines, bars)
+of the plot. You can also add layers to create subplots, add title and
+axis labels, and save the plot.
+
+\subsection{scatter plot}\label{scatter-plot}
+
+We will start with scatter plots. We will make a basic scatter plot of
+``Fasting Blood Sugar'' against ``CRP Level'' using the default
+settings.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{Fasting Blood Sugar}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{CRP Level}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Session2_tidyR_Plotting.v1_files/figure-latex/basic scatter plot-1.pdf}}
+
+You can color code the data points by gender by adding a \texttt{color}
+argument. You can also modify the appearance of the plot. For instance,
+we can change it to a white background with gray grid lines using the
+\texttt{theme\_bw()} function. To adjust axis labels or to add a title
+to the plot, you can use the \texttt{labs()} and \texttt{theme()}
+functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{Fasting Blood Sugar}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{CRP Level}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{color =}\NormalTok{ Gender)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Fasting Blood Sugar [mg/dL]"}\NormalTok{, }\AttributeTok{y =} \StringTok{"CRP Level [mg/L]"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Fasting blood sugar VS CRP level"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{),}
+    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{size =} \DecValTok{18}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{    )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Session2_tidyR_Plotting.v1_files/figure-latex/scatter plot settings-1.pdf}}
+
+To help visualize patterns and trends in the data, you can use the
+\texttt{geom\_smooth()} function to fit a model to the data and overlay
+a trend line to the plot. It also displays shaded 95\% confidence
+interval by default (you can hide or adjust it in the arguments). You
+can specify the function to use for fitting the model (smoothing
+function) via the \texttt{method} argument.
+
+For example, if you want to add linear regression lines to the plot
+above, you can add a layer of smoothing function \texttt{geom\_smooth()}
+and put \texttt{lm} in the ``method'' argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{Fasting Blood Sugar}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{Homocysteine Level}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{color =}\NormalTok{ Gender)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Fasting Blood Sugar [mg/dL]"}\NormalTok{, }\AttributeTok{y =} \StringTok{"CRP Level [mg/L]"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Fasting blood sugar VS CRP level"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{),}
+    \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{14}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{),}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{size =} \DecValTok{18}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{    ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula = 'y ~ x'
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Session2_tidyR_Plotting.v1_files/figure-latex/regression line-1.pdf}}
+
+Since we group the data by gender here, the fitting is applied to female
+and male patient data separately.
+
+\subsection{box-and-whisker plot}\label{box-and-whisker-plot}
+
+We will make some box-and-whisker plots to visualize the distribution of
+data between groups. We will start with a basic box plot on triglyceride
+level for patients with or without heart disease. We will use
+\texttt{geom\_boxplot()} to define the box plot. If you want the y axis
+to show the full data range and hide the outliers, specify in the
+argument with \texttt{outlier.shape\ =\ NA}. You can use the
+\texttt{geom\_jitter()} function to display individual data points,
+which also adds a small amount of random noise to the position
+(horizontal in this case) of each point for easy visualization.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{Heart Disease Status}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{Triglyceride Level}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{outlier.shape =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Session2_tidyR_Plotting.v1_files/figure-latex/basic box plot-1.pdf}}
+
+By default, \texttt{geom\_boxplot()} does not include error bars (or
+whisker end-bars) in the plot. You can call the \texttt{stat\_boxplot()}
+function to add horizontal lines at the end of whiskers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{Heart Disease Status}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{Triglyceride Level}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{outlier.shape =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_boxplot}\NormalTok{(}\AttributeTok{geom =} \StringTok{"errorbar"}\NormalTok{, }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Session2_tidyR_Plotting.v1_files/figure-latex/error bars-1.pdf}}
+You can also color code the boxes, bars, and individual data points by
+groups. To do so, simply add an argument \texttt{color} in the
+aesthetics function \texttt{aes()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{Heart Disease Status}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{Triglyceride Level}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{color =} \StringTok{\textasciigrave{}}\AttributeTok{Heart Disease Status}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{outlier.shape =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_boxplot}\NormalTok{(}\AttributeTok{geom =} \StringTok{"errorbar"}\NormalTok{, }\AttributeTok{width =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_jitter}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Session2_tidyR_Plotting.v1_files/figure-latex/colored box plot-1.pdf}}
+
+\end{document}
